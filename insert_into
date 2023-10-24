@@ -1,0 +1,37 @@
+<?php
+
+include "config.php";
+
+$fname = $lname= $email = $address =$gender = $phone =$size = $confirm_password = $password="";
+$fnameErr = $lnameErr = $emailErr = $addressErr = $genderErr = $sizeErr = $phoneErr = $confirm_passwordErr = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+   //INSERT statement
+    $stmt = $conn->prepare("INSERT INTO customers (fname, lname, email, phone, address, size, gender, password) VALUES (:fname, :lname, :email, :phone, :address, :size, :gender, :password)");
+
+    $stmt->bindParam(':fname', $fname);
+    $stmt->bindParam(':lname', $lname);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':address', $address);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':size', $size);
+    $stmt->bindParam(':gender', $gender);
+
+    //execute
+    $status = $stmt->execute();
+    if ($status) {
+        echo "Data inserted successfully";
+        // $_SESSION['name'] = $_POST['name'];
+        // $_SESSION["status"] = true;
+        // $_SESSION["message"] = "Sign up successful";
+    } else {
+        var_dump($stmt->errorInfo());exit;
+        // $_SESSION["status"] = true;
+        // $_SESSION["message"] = $stmt->errorInfo();
+    }
+
+}
+
+?>
